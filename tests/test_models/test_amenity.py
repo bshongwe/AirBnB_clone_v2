@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Unittests for models/amenity.py"""
+""" """
 from tests.test_models.test_base_model import test_basemodel
 from models.amenity import Amenity
 from models.base_model import BaseModel
@@ -13,22 +13,22 @@ import unittest
 storage_t = getenv("HBNB_TYPE_STORAGE")
 
 class test_Amenity(test_basemodel):
-    """Unittests for testing instantiation of the Amenity class."""
+    """ """
 
     def __init__(self, *args, **kwargs):
-        """Initialise object state"""
+        """ """
         super().__init__(*args, **kwargs)
         self.name = "Amenity"
         self.value = Amenity
 
     def test_name2(self):
-        """Create new object"""
+        """ """
         new = self.value()
         self.assertEqual(type(new.name), str)
 
 
 class Test_PEP8(unittest.TestCase):
-    """Test user"""
+    """test User"""
     def test_pep8_user(self):
         """test pep8 style"""
         pep8style = pycodestyle.StyleGuide(quiet=True)
@@ -38,9 +38,9 @@ class Test_PEP8(unittest.TestCase):
 
 
 class test_inherit_basemodel(unittest.TestCase):
-    """Test if user inherits from BaseModel"""
+    """Test if user inherit from BaseModel"""
     def test_instance(self):
-        """Check if user is instance of BaseModel"""
+        """check if user is an instance of BaseModel"""
         user = Amenity()
         self.assertIsInstance(user, Amenity)
         self.assertTrue(issubclass(type(user), BaseModel))
@@ -145,7 +145,7 @@ class TestAmenity(unittest.TestCase):
             self.assertEqual(amenity.name, "")
 
     def test_to_dict_creates_dict(self):
-        """Test to_dict method creates a dictionary with proper attrs"""
+        """test to_dict method creates a dictionary with proper attrs"""
         am = Amenity()
         print(am.__dict__)
         new_d = am.to_dict()
@@ -157,7 +157,7 @@ class TestAmenity(unittest.TestCase):
         self.assertTrue("__class__" in new_d)
 
     def test_to_dict_values(self):
-        """Test that values in dict returned from to_dict are correct"""
+        """test that values in dict returned from to_dict are correct"""
         t_format = "%Y-%m-%dT%H:%M:%S.%f"
         am = Amenity()
         new_d = am.to_dict()
@@ -168,7 +168,7 @@ class TestAmenity(unittest.TestCase):
         self.assertEqual(new_d["updated_at"], am.updated_at.strftime(t_format))
 
     def test_str(self):
-        """Test that the str method has the correct output"""
+        """test that the str method has the correct output"""
         amenity = Amenity()
         string = "[Amenity] ({}) {}".format(amenity.id, amenity.__dict__)
         self.assertEqual(string, str(amenity))

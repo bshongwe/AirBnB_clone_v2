@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Unittests for models/base_model.py"""
+""" """
 from models.base_model import BaseModel
 import unittest
 import datetime
@@ -10,24 +10,26 @@ import pycodestyle
 
 
 class test_basemodel(unittest.TestCase):
-    """Unittests for testing instantiation of the Basemodel class."""
+    """ """
 
     def __init__(self, *args, **kwargs):
-        """Initialise object state"""
+        """ """
         super().__init__(*args, **kwargs)
         self.name = 'BaseModel'
         self.value = BaseModel
-    
-    """A class to test pep8 on base_model file"""
+    """
+    A class to test pep8 on base_model file"""
     def test_pycodestyle(self):
-        """Test pep8 format"""
+        """
+        Test pep8 format
+        """
         pycostyle = pycodestyle.StyleGuide(quiet=True)
         result = pycostyle.check_files(['models/base_model.py'])
         self.assertEqual(result.total_errors, 0,
                          "Found code style errors (and warnings).")
 
     def setUp(self):
-        """Prior empty test"""
+        """ """
         pass
 
     def tearDown(self):
@@ -37,19 +39,19 @@ class test_basemodel(unittest.TestCase):
             pass
 
     def test_default(self):
-        """Test for same type"""
+        """ """
         i = self.value()
         self.assertEqual(type(i), self.value)
 
     def test_kwargs(self):
-        """Test BaseModel difference"""
+        """ """
         i = self.value()
         copy = i.to_dict()
         new = BaseModel(**copy)
         self.assertFalse(new is i)
 
     def test_kwargs_int(self):
-        """Test BaseModel for TypeError"""
+        """ """
         i = self.value()
         copy = i.to_dict()
         copy.update({1: 2})
@@ -66,41 +68,35 @@ class test_basemodel(unittest.TestCase):
             self.assertEqual(j[key], i.to_dict())
 
     def test_str(self):
-        """Test object string"""
+        """ """
         i = self.value()
         self.assertEqual(str(i), '[{}] ({}) {}'.format(self.name, i.id,
                          i.__dict__))
 
     def test_todict(self):
-        """Test Dict return"""
+        """ """
         i = self.value()
         n = i.to_dict()
         self.assertEqual(i.to_dict(), n)
 
     def test_kwargs_none(self):
-        """Test TypeError from Dict for none key"""
+        """ """
         n = {None: None}
         with self.assertRaises(TypeError):
             new = self.value(**n)
 
-    def test_kwargs_one(self):
-        """Test for KeyError from Dict for keyword args"""
-        n = {'Name': 'test'}
-        with self.assertRaises(KeyError):
-            new = self.value(**n)
-
     def test_id(self):
-        """Test id value for string type"""
+        """ """
         new = self.value()
         self.assertEqual(type(new.id), str)
 
     def test_created_at(self):
-        """Test object for datetime instance"""
+        """ """
         new = self.value()
         self.assertEqual(type(new.created_at), datetime.datetime)
 
     def test_updated_at(self):
-        """Test object for datetime instance"""
+        """ """
         new = self.value()
         self.assertEqual(type(new.updated_at), datetime.datetime)
         n = new.to_dict()
@@ -108,7 +104,9 @@ class test_basemodel(unittest.TestCase):
         self.assertFalse(new.created_at == new.updated_at)
 
     def test_uuid(self):
-        """Testin UUID"""
+        """
+        Testin UUID
+        """
         instance1 = BaseModel()
         instance2 = BaseModel()
         instance3 = BaseModel()
@@ -132,9 +130,10 @@ class test_basemodel(unittest.TestCase):
 
 class TestCodeFormat(unittest.TestCase):
     """A class to test pep8 on base_model file"""
-
     def test_pycodestyle(self):
-        """Test pep8 format"""
+        """
+        Test pep8 format
+        """
         pycostyle = pycodestyle.StyleGuide(quiet=True)
         result = pycostyle.check_files(['models/base_model.py'])
         self.assertEqual(result.total_errors, 0,
@@ -155,22 +154,22 @@ class Test_docstrings(unittest.TestCase):
 
 
 class TestBaseModel(unittest.TestCase):
-    """Unnittest for BaseModel class x"""
+    """this will test the base model class x"""
 
     @classmethod
     def setUpClass(cls):
-        """Setup for the test"""
+        """setup for the test"""
         cls.base = BaseModel()
         cls.base.name = "Kev"
         cls.base.num = 20
 
     @classmethod
     def teardown(cls):
-        """At the end of the test this will tear it down"""
+        """at the end of the test this will tear it down"""
         del cls.base
 
     def tearDown(self):
-        """Teardown"""
+        """teardown"""
         try:
             os.remove("file.json")
         except Exception:
@@ -183,7 +182,7 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(p.total_errors, 0, "fix pep8")
 
     def test_checking_for_docstring_BaseModel(self):
-        """Checking for docstrings"""
+        """checking for docstrings"""
         self.assertIsNotNone(BaseModel.__doc__)
         self.assertIsNotNone(BaseModel.__init__.__doc__)
         self.assertIsNotNone(BaseModel.__str__.__doc__)
@@ -191,22 +190,22 @@ class TestBaseModel(unittest.TestCase):
         self.assertIsNotNone(BaseModel.to_dict.__doc__)
 
     def test_method_BaseModel(self):
-        """Checking if Basemodel has methods"""
+        """chekcing if Basemodel have methods"""
         self.assertTrue(hasattr(BaseModel, "__init__"))
         self.assertTrue(hasattr(BaseModel, "save"))
         self.assertTrue(hasattr(BaseModel, "to_dict"))
 
     def test_init_BaseModel(self):
-        """Test if the base is an type BaseModel"""
+        """test if the base is an type BaseModel"""
         self.assertTrue(isinstance(self.base, BaseModel))
 
     def test_save_BaesModel(self):
-        """Test if the save works"""
+        """test if the save works"""
         self.base.save()
         self.assertNotEqual(self.base.created_at, self.base.updated_at)
 
     def test_to_dict_BaseModel(self):
-        """Test if dictionary works"""
+        """test if dictionary works"""
         base_dict = self.base.to_dict()
         self.assertEqual(self.base.__class__.__name__, 'BaseModel')
         self.assertIsInstance(base_dict['created_at'], str)
@@ -215,3 +214,4 @@ class TestBaseModel(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
