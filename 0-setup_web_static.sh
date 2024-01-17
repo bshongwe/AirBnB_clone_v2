@@ -1,30 +1,38 @@
 #!/usr/bin/env bash
-# Prepare your web servers
+# Sets up a web server for deployment of web_static.
 
-# install nginx
-sudo apt-get update -y
-sudo apt-get install nginx -y
+apt-get update
+apt-get install -y nginx
 
-# create folders
-sudo mkdir -p /data/web_static/releases/test/
-sudo mkdir -p /data/web_static/shared/
-sudo sh -c 'echo "this is Emad"> /data/web_static/releases/test/index.html'
-# create symbolic link
-sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
+mkdir -p /data/web_static/releases/test/
+mkdir -p /data/web_static/shared/
+echo "Holberton School" > /data/web_static/releases/test/index.html
+ln -sf /data/web_static/releases/test/ /data/web_static/current
 
-sudo chown -R ubuntu:ubuntu /data/
+chown -R ubuntu /data/
+chgrp -R ubuntu /data/
 
-# Update the Nginx configuration to serve the content
-
-sudo sh -c 'echo "server {
-    listen 80;
+printf %s "server {
+    listen 80 default_server;
     listen [::]:80 default_server;
-    server_name emadanwer.tech;
+    add_header X-Served-By $HOSTNAME;
+    root   /var/www/html;
+    index  index.html index.htm;
+
     location /hbnb_static {
-        alias /data/web_static/current/;
+        alias /data/web_static/current;
+        index index.html index.htm;
     }
-}" > /etc/nginx/sites-available/default'
 
-# restart nginx
+    location /redirect_me {
+        return 301 http://cuberule.com/;
+    }
 
-sudo service nginx restart
+    error_page 404 /404.html;
+    location /404 {
+      root /var/www/html;
+      internal;
+    }
+}" > /etc/nginx/sites-available/default
+
+service nginx restart
